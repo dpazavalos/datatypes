@@ -1,6 +1,6 @@
 """
 Baseline engine that can be used by sub-schematics to construct necessary objects.
-Should only be imported by _z_documentation
+Import object into _z_documentation
 """
 
 

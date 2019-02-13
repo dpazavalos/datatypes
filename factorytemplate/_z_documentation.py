@@ -1,13 +1,12 @@
-"""Child object documentations, to be imported by child definitions and factorytemplate.__init__
+"""Data object documentations, to be imported by child definitions and factory template init
  references"""
-
 
 from factorytemplate._z_base_engine import BaseEngine
 
 
 class TypeADoc(BaseEngine):
-    """Documentation class"""
+    """Documentation Extention class"""
 
 
 class TypeBDoc(BaseEngine):
-    """Documentation class"""
+    """Documentation Extention class"""
