@@ -1,6 +1,6 @@
 """
-Extension of default list obj. Adds an active index to use as a list's bookmark
-Includes safeties for incrementing/decrementing
+Extension of default python list. Adds an active index to use as a list's bookmark
+Includes bonds-wise safeties for incrementing/decrementing
 """
 
 
@@ -24,98 +24,120 @@ class CrementalList(list):
                                decrement_key: self.decrement}
         """Using given incrementer and decrementer keys as calls for respective functions"""
 
-        self.ndx: int = 0
-        """Active index"""
+        self._ndx: int = 0
+        """Protected active index"""
 
-        self.active: any = None
-        """Active item from given list, based on active index"""
+        self._active: any = None
+        """Protected active item from given list, based on active index"""
 
-        self.raise_bounds_error = raise_bounds_error
-        """Raise IndexError if attempting to crement outside of current list bounds. Def False"""
+        self._raise_bounds_error = raise_bounds_error
+        """Raise IndexError if attempting to ndx outside of current list bounds. Default False"""
 
         self._set_callables()
 
     # Public accessible functions
 
+    def ndx(self):
+        """Current index. If list is [], returns None"""
+        if self._is_loaded():
+            return self._ndx
+
+    def active(self):
+        """Active item by index. if list is [], returns None"""
+        if self._is_loaded():
+            return self._get_active()
+
     def set_ndx(self, new_ndx: int) -> None:
         """Attempts to set active ndx.
         Raises a Value Error if given ndx is outside list ndx"""
         if self._is_loaded():
-            if new_ndx < 0 or new_ndx > self.__len__():
-                raise ValueError(f'new ndx is outside of list length 0-{self.__len__()}!')
+            if new_ndx < 0:
+                # todo add negative indexing
+                if self._raise_bounds_error:
+                    raise ValueError(f'new ndx is under 0!')
+                else:
+                    new_ndx = 0
+            elif new_ndx >= self.__len__():
+                if self._raise_bounds_error:
+                    raise ValueError(f'new ndx is outside of list length 0-{self.__len__()}!')
+                else:
+                    new_ndx = self.__len__() - 1
             else:
-                self.ndx = new_ndx
+                self._ndx = new_ndx
                 self._set_callables()
 
-    def crement(self, crementer, return_ndx=False) -> int:
+    def crement(self, crementer_key, return_ndx=False) -> int:
         """Attempts to use cremementer key to call appropriate crementer function
         Optional return_ndx to return new ndx"""
+        # todo return new active=False
         if self._is_loaded():
-            if crementer not in self._menters:
+            if crementer_key not in self._menters:
                 raise KeyError(f"Invalid crementer! \n {self._menters}")
-            self._menters[crementer]()
+            self._menters[crementer_key]()
             if return_ndx is True:
-                return self.ndx
+                return self._ndx
 
     def increment(self) -> None:
         """Call ndx_i if safe"""
         if self._is_loaded():
-            if self.ndx + 1 < self.__len__():
+            if self._ndx + 1 < self.__len__():
                 self._ndx_i()
-            elif self.raise_bounds_error is True:
+            elif self._raise_bounds_error is True:
                 raise IndexError("Attempted to increment above upper bound!")
 
     def decrement(self) -> None:
         """Call ndx_d if safe, """
         if self._is_loaded():
-            if self.ndx - 1 >= 0:
+            if self._ndx - 1 >= 0:
                 self._ndx_d()
-            elif self.raise_bounds_error is True:
+            elif self._raise_bounds_error is True:
                 raise IndexError("Attempted to decrement below lower bound!")
 
     # Actual incrementer/decrementer
 
     def _ndx_i(self) -> None:
         """Increment ndx +1, reset callables"""
-        if self._is_loaded():
-            self.ndx += 1
-            self._set_callables()
+        self._ndx += 1
+        self._set_callables()
 
     def _ndx_d(self):
         """Decrement ndx -1, reset callables"""
-        if self._is_loaded():
-            self.ndx -= 1
-            self._set_callables()
+        self._ndx -= 1
+        self._set_callables()
 
     # Internal Get/Setters
 
     def _set_callables(self) -> None:
         """Sets callable values, based on active ndx"""
         if self._is_loaded():
-            self.active = self._get_active()
+            self._active = self._get_active()
+
+    def _get_ndx(self)-> int:
+        return self._ndx
 
     def _get_active(self) -> any:
         """Returns item from list using _get_active ndx"""
-        if self._is_loaded():
-            return self[self.ndx]
+        return self[self._ndx]
 
     # Internal Maintenance
 
     def _is_loaded(self) -> bool:
         """Used to prevent CrementalList functions if list is []
-        Centralized call for _ensure_upper_bounded"""
+        Centralized call for _ensure_bounded"""
         if self.__len__() == 0:
             self._deactivate_callables()
             return False
-        self._ensure_upper_bounded()
+        self._ensure_bounded()
         return True
 
-    def _ensure_upper_bounded(self):
-        """Ensures ndx is not overbounded due to reduced list length"""
-        if self.ndx is not None and self.ndx >= self.__len__():
-            self.ndx = self.ndx > self.__len__()
+    def _ensure_bounded(self):
+        """Ensures ndx is activated and not out of bounds"""
+        if not self._ndx or self._ndx < 0:
+            self._ndx = 0
+        if self._ndx >= self.__len__():
+            self._ndx = self.__len__() - 1
 
     def _deactivate_callables(self):
         """Used to disable callable attributes, if list becomes []"""
-        self.ndx = None
-        self.active = None
+        self._ndx = None
+        self._active = None
