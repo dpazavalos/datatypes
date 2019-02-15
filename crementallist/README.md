@@ -14,7 +14,7 @@ pip install cremental_list
 Regular startup
 
 ```python
->>> from cremental_list import CrementalList
+>>> from crementallist import CrementalList
 >>> crelist = CrementalList(['zero', 'one', 'two'])
 >>> crelist.ndx()
 0

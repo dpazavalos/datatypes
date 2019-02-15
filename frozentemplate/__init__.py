@@ -32,3 +32,4 @@ class Frozen:
             if self._frozen:
                 raise SyntaxError("Consider Constants obj immutable, do not modify!")
             del self.__dict__[item]
+
