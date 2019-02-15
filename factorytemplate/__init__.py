@@ -1,17 +1,17 @@
 """
-Template for side load factories. factorytemplate.build points to assembled factory to reliably
-build memory unique objects
+Side loaded factory template, used to store and create unique memory ID objects
 """
-from factorytemplate import _type_a, _type_b, _z_documentation
+
+from . import _type_a, _type_b, _z_documentation
 
 
 class TypeADocumentation(_z_documentation.TypeADoc):
-    """Externally referencable pointer to type A format documentation.  No functions
+    """Externally referencable pointer to type A format documentation.  No functions.
     If doc is properly built, no work needed here"""
 
 
 class TypeBDocumentation(_z_documentation.TypeBDoc):
-    """Externally referencable pointer to type B format documentation. No functions
+    """Externally referencable pointer to type B format documentation. No functions.
     If doc is properly built, no work needed here"""
 
 
