@@ -1,7 +1,7 @@
 """Reusable unique string gatherer. Returns unique string values only, with optional"""
 
 
-class ListGatherer:
+class GatherList:
 
     def __init__(self):
         self.args_dict = {}
@@ -13,8 +13,9 @@ class ListGatherer:
         return True
 
     def run(self, header: str = '', *args: list) -> list:
-        """Gathers input from user, split by newline. Runs until blank line submitted. Checks input
-        value against itself and lists provided in args to ensure unique and allowed values only"""
+        """Gathers input from user, split by newline. Runs until blank line submitted.
+        Checks input value against itself and optional provided lists in args to ensure unique and
+        allowed values only"""
 
         self.args_dict.clear()
         for ndx, arg in enumerate(args):
@@ -33,6 +34,6 @@ class ListGatherer:
         return gathered
 
 
-# gatherer = ListGatherer().run
-# head = "sample words to display"
-# print(gatherer(head, ['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '10']))
+gatherer = GatherList().run
+head = "sample words to display"
+print(gatherer(head, ['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '10']))
