@@ -21,6 +21,9 @@ class Frozen:
     def freeze_now(self):
         self._frozen = True
 
+    def unfreeze(self):
+        self._frozen = False
+
     def __setattr__(self, item, value):
         """Pre 3.7 emulation of frozen dataclasses. Soft mutation prevention"""
         if self._frozen:
