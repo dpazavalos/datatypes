@@ -6,7 +6,7 @@ Includes bonds-wise safeties for incrementing/decrementing
 ##  Installation
 
 ```
-pip install cremental_list
+pip install crementallist
 ```
 
 ## Usage
