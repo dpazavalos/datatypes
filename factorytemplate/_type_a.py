@@ -1,4 +1,4 @@
-from factorytemplate._z_documentation import TypeADoc as _TypeADoc
+from ._z_documentation import TypeADoc as _TypeADoc
 
 
 class TypeA(_TypeADoc):

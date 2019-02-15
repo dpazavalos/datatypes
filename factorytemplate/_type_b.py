@@ -1,4 +1,4 @@
-from factorytemplate._z_documentation import TypeBDoc as _TypeBDoc
+from ._z_documentation import TypeBDoc as _TypeBDoc
 
 
 class TypeB(_TypeBDoc):

@@ -2,7 +2,7 @@
 Side loaded factory template, used to store and create unique memory ID objects
 """
 
-from factorytemplate import _type_a, _type_b, _z_documentation
+from . import _type_a, _type_b, _z_documentation
 
 
 class TypeADocumentation(_z_documentation.TypeADoc):
