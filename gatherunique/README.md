@@ -12,7 +12,7 @@ pip install gather_unique
 ##  Usage
 
 ```python
-from gather_unique import GatherUnique
+from gatherunique import GatherUnique
 gather = GatherUnique()
 head = "Header to display"
 
