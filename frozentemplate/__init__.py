@@ -28,11 +28,13 @@ class Frozen:
         """Pre 3.7 emulation of frozen dataclasses. Soft mutation prevention"""
         if self._frozen:
             raise SyntaxError("Consider Constants obj immutable, do not modify!")
-        self.__dict__[item] = value
+        super().__setattr__(item, value)
+
 
     def __delattr__(self, item):
             """Pre 3.7 emulation of frozen dataclasses. Soft mutation prevention"""
             if self._frozen:
                 raise SyntaxError("Consider Constants obj immutable, do not modify!")
-            del self.__dict__[item]
+            super().__delattr__(item, value)
+
 
