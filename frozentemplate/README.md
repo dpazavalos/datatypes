@@ -1,4 +1,4 @@
-# Factory Template
+# Frozen Template
 
 Emulation of 3.7 Dataclasses frozen attribute, with soft lock for immutability
 Allows immutable dataclass style objects for pre 3.7 applications. Set and forget about constants
