@@ -6,15 +6,14 @@ Once init completes, builtin setattr and delattr will throw a SyntaxError on att
 """
 
 
-class Frozen:
-    """These should never change mid-run. Once init'd, _frozen prevents any attr changes"""
+class FrozenObj:
+    """These should never change mid-run. Once init'd, _frozen prevents attr changes"""
 
     _frozen = False
 
     def __init__(self, freeze_post_init=True):
 
-        # Enable all class attributes. By default, _freeze enables and locks @end of init
-
+        # Call this super init to freeze. By default, _freeze enables and locks
         if freeze_post_init:
             self._frozen = True
 
@@ -22,7 +21,7 @@ class Frozen:
         self._frozen = True
 
     def unfreeze(self):
-        self._frozen = False
+        self.__dict__['_frozen'] = False
 
     def __setattr__(self, item, value):
         """Pre 3.7 emulation of frozen dataclasses. Soft mutation prevention"""
@@ -30,11 +29,10 @@ class Frozen:
             raise SyntaxError("Consider Constants obj immutable, do not modify!")
         super().__setattr__(item, value)
 
-
     def __delattr__(self, item):
             """Pre 3.7 emulation of frozen dataclasses. Soft mutation prevention"""
             if self._frozen:
                 raise SyntaxError("Consider Constants obj immutable, do not modify!")
-            super().__delattr__(item, value)
+            super().__delattr__(item)
 
 
