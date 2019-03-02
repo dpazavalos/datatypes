@@ -17,11 +17,12 @@ SyntaxError: Consider Constants obj immutable, do not modify!
 # Yes you can
 ```
 
-.freeze_now()
-    * force freeze object, preventing any set or removing
+ * .freeze_now() - 
+force freeze object, preventing any set or removing
 
-.unfreeze(self):
-    * force unfreeze object, allowing any set or removing
+ * .unfreeze() - 
+ force unfreeze object, allowing any set or removing
 
-__init__(freeze_post_init) defaults to freeze object once init. Set False to diable auto-freeze, 
+ * __init__(freeze_post_init) - 
+defaults to freeze object once init. Set False to diable auto-freeze, 
 call .freeze_now to manually lock class attributes once desired
