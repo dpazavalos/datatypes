@@ -1,7 +1,9 @@
-# Cremental List
+# CrementalList
 
-Extension of default python list. Adds an active index to use as a list's bookmark
-Includes bonds-wise safeties for incrementing/decrementing
+Extension of default list obj. Stores and preserves a boundwise bookmarking index. Whole
+list can be passed between objects with bookmark. Carries functions to safely set ndx,
+increment, decrement, and a crementer function that takes customizable keys to increment/
+decrement.
 
 ##  Installation
 
@@ -13,20 +15,37 @@ pip install crementallist
 
 Regular startup
 
+```python
+from crementallist import CrementalList
+crelist = CrementalList(['zero', 'one', 'two'])
+crelist.ndx()           
+    # returns 0 
+crelist.active()        
+    # returns 'zero'
+
+crelist.increment()     
+    # ndx = 1
+crelist.increment()     
+    # ndx = 2
+crelist.active()        
+    # returns 'two'
+
+crelist.increment()     
+    # tries to set +1 but not really because it'd be out of bounds so still 2
+crelist.active()        
+    # returns 'two'
 ```
->>> from crementallist import CrementalList
->>> crelist = CrementalList(['zero', 'one', 'two'])
->>> crelist.ndx()
-0
->>> crelist.active()
-'zero'
->>> crelist.increment()
->>> crelist.increment()
->>> crelist.active()
-'two'
->>> crelist.increment()
->>> crelist.active()
-'two'
+
+```python
+from crementallist import CrementalList
+crelist = CrementalList(['zero', 'one', 'two'], raise_bounds_error=True)
+crelist.set_ndx(7, raise_bounds_error=False)    # Set index to 7, suppress out of bounds errors
+
+keys_to_send = ['-', '+']
+crelist.crement(keys_to_send[0])    # Send decrementer key  
+crelist.crement(keys_to_send[1])    # Send incrementer key 
+
+crelist.increment()
 ```
 
 ## Features
@@ -35,7 +54,7 @@ Regular startup
     * All enhancements are done without modifying original list object 
 
 * Empty list tolerance
-    * All Cremental List functions simply return None if a list starts/becomes []
+    * Cremental List Get functions simply return None if a list starts/becomes []
     
 * 100% self-contained
     * Dependencies-schamendancies
@@ -43,37 +62,55 @@ Regular startup
 
 ## Functions
 
-######init(seq, increment_key='+', decrement_key='-', raise_bounds_error=False)
-seq: Default list argument. CrementalList({}) to build
-increment_key: Default key used by crement to call increment()
-decrement_key: Default key used by crement to call decrement()
-raise_bounds_error: Raise IndexError if attempting to crement outside of current list bounds
-                    Def False
+#####init(seq, increment_key='+', decrement_key='-', raise_bounds_error=False)
+ - seq: 
+    Mutable Sequence to track
+ - increment_key: 
+    Key used by crement() to increment bookmark index by one
+ - decrement_key
+    Key used by crement() to decrement bookmark index by one
+ - raise_bounds_error:
+    Optional attribute to raise errors on Out of Bounds bookmark index attempts
 
-######ndx()
-Returns current tracking index int, within base list ndx range
+#####ndx()
+Returns current active bookmark index, or None if list is []
 
-#######active()
-Returns active list item, based on self.ndx
+#####active()
+Get current active item, based off bookmark index, or None if list is []
 
-######set_ndx(new_ndx: int) -> None
-Attempts to set _get_active ndx.
-()()If Raises a Value Error if given ndx is outside list ndx
+#####set_ndx(new_ndx: int, raise_bounds_error: bool = None) -> None
+Attempts to set active ndx. Negatives are treated as typical inverse list indexes. By
+default, indexes over the limit are treated as [-1]
+ - new_ndx:
+    Desired bookmark index
+ - raise_bounds_error:
+    Raises an Index Error if given ndx is outside list boundaries. Defaults to shadow
+    class-wide raise_bounds_error, but can be force set if needed
 
-######crement(crementer, return_value=False) -> Optional[int]:
-Attempts to call appropriate function based off given crementer key
-Attempts to set active ndx. Raises a Value Error if given ndx is outside list ndx
+#####def crement(crementer_key, return_ndx=False, raise_bounds_error: bool = None) -> Optional[int]
+Centralized function to call increment/decrement with a given key, crementer_key. Attempts
+to use key, raises KeyError if does not match keys from init. Can return the new active ndx
+ - crementer_key:
+    Key to pass, from initialized incrementer/decrementer
+ - return_ndx:
+    Optional attribute to return newly set index
+ - raise_bounds_error:
+    Raises an Index Error if given ndx is outside list boundaries. Defaults to shadow
+    class-wide raise_bounds_error, but can be force set if needed
 
-######increment()
-Attempt to increment .ndx by 1, checking against current upper bound.
-By default respects list bounds (will not over increment), but if raise_bounds_error is True,
-raises IndexError
+#####increment(return_ndx=False, raise_bounds_error: bool = None) -> Optional[int]
+Safe manual call to increment bookmark index by one
+ - return_ndx:
+    Optional attribute to return newly set index
+ - raise_bounds_error:
+    Raises an Index Error if given ndx is outside list boundaries. Defaults to shadow
+    class-wide raise_bounds_error, but can be force set if needed
 
-######decrement()
-Attempt to decrement .ndx by 1, checking against current lower bound.
-By default respects list bounds (will not over decrement), but if raise_bounds_error is True,
-raises IndexError
+#####decrement(return_ndx=False, raise_bounds_error: bool = None) -> Optional[int]
+Safe manual call to decrement bookmark index by one
 
-## Todos
-* Return_new_active option on increment/decrement
-* Negative index acceptance in set_ndx
+ - return_ndx:
+    Optional attribute to return newly set index
+ - raise_bounds_error:
+    Raises an Index Error if given ndx is outside list boundaries. Defaults to shadow
+    class-wide raise_bounds_error, but can be force set if needed

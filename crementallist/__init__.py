@@ -13,7 +13,7 @@ class CrementalList(list):
     decrement.
     """
 
-    def __init__(self, seq, increment_key='+', decrement_key='-', raise_bounds_error=False):
+    def __init__(self, seq, increment_key: any = '+', decrement_key: any = '-', raise_bounds_error=False):
         """
         Extension of default list obj. Stores and preserves a boundwise bookmarking index. Whole
         list can be passed between objects with bookmark. Carries functions to safely set ndx,
@@ -212,7 +212,7 @@ class CrementalList(list):
         """Returns item from list using _get_active ndx. List is assumed active"""
         return self[self._ndx]
 
-    def _set_ndx(self, new_ndx) -> None:
+    def _set_ndx(self, new_ndx: int) -> None:
         """
         Sets _ndx to new_ndx. List is assumed active
 
@@ -231,7 +231,7 @@ class CrementalList(list):
         self._ensure_active()
         return True
 
-    def _in_bounds(self, ndx) -> bool:
+    def _in_bounds(self, ndx: int) -> bool:
         """Internal check to ensure a potential ndx is within bounds
 
         Args:
